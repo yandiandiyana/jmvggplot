@@ -1,0 +1,1361 @@
+---
+name: layerPlot
+title: Layered ggplot
+menuGroup: .
+version: '0.0.1'
+jas: '1.2'
+category: plots
+description:
+    main: Builds a ggplot2 plot from an ordered list of layers and shows the equivalent R code.
+    R:
+        dontrun: true
+        usage: |
+            # not intended for use outside jamovi in this stage
+options:
+  - name: data
+    type: Data
+    description:
+        R: the data as a data frame
+
+  - name: x
+    title: "X axis"
+    type: Variable
+    permitted: [numeric, factor]
+    default: null
+  - name: y
+    title: "Y axis"
+    type: Variable
+    permitted: [numeric, factor]
+    default: null
+  - name: colour
+    title: "Colour"
+    type: Variable
+    permitted: [numeric, factor]
+    default: null
+  - name: fill
+    title: "Fill"
+    type: Variable
+    permitted: [numeric, factor]
+    default: null
+  - name: shape
+    title: "Shape (categorical)"
+    type: Variable
+    permitted: [factor]
+    default: null
+  - name: sizeBy
+    title: "Size"
+    type: Variable
+    permitted: [numeric, factor]
+    default: null
+  - name: alphaBy
+    title: "Opacity"
+    type: Variable
+    permitted: [numeric, factor]
+    default: null
+  - name: group
+    title: "Group"
+    type: Variable
+    permitted: [numeric, factor]
+    default: null
+  - name: label
+    title: "Label (text and label layers)"
+    type: Variable
+    permitted: [numeric, factor]
+    default: null
+  - name: ymin
+    title: "Y min (ribbons, error bars)"
+    type: Variable
+    permitted: [numeric]
+    default: null
+  - name: ymax
+    title: "Y max (ribbons, error bars)"
+    type: Variable
+    permitted: [numeric]
+    default: null
+  - name: xend
+    title: "X end (segments)"
+    type: Variable
+    permitted: [numeric]
+    default: null
+  - name: yend
+    title: "Y end (segments)"
+    type: Variable
+    permitted: [numeric]
+    default: null
+  - name: facetVar1
+    title: "Facet by (wrap) / rows (grid)"
+    type: Variable
+    permitted: [factor]
+    default: null
+  - name: facetVar2
+    title: "Facet columns (grid only)"
+    type: Variable
+    permitted: [factor]
+    default: null
+
+  - name: addLayer
+    title: "Add layer"
+    type: List
+    options:
+      - name: "none"
+        title: "Choose a type to add..."
+      - name: "point"
+        title: "Points"
+      - name: "line"
+        title: "Line"
+      - name: "smooth"
+        title: "Smooth / regression"
+      - name: "jitter"
+        title: "Jittered points"
+      - name: "text"
+        title: "Text labels"
+      - name: "histogram"
+        title: "Histogram"
+      - name: "bar"
+        title: "Bar (counts)"
+      - name: "col"
+        title: "Column (values)"
+      - name: "density"
+        title: "Density"
+      - name: "boxplot"
+        title: "Boxplot"
+      - name: "violin"
+        title: "Violin"
+      - name: "hline"
+        title: "Horizontal line"
+      - name: "vline"
+        title: "Vertical line"
+      - name: "abline"
+        title: "Diagonal line"
+      - name: "path"
+        title: "Path (data order)"
+      - name: "area"
+        title: "Area"
+      - name: "ribbon"
+        title: "Ribbon (min to max)"
+      - name: "errorbar"
+        title: "Error bars"
+      - name: "segment"
+        title: "Segments"
+      - name: "label"
+        title: "Boxed labels"
+      - name: "summary"
+        title: "Summary (point / range)"
+      - name: "summary_errorbar"
+        title: "Summary error bars"
+      - name: "summary_bar"
+        title: "Summary bars"
+    default: "none"
+
+  - name: facetType
+    title: "Facet type"
+    type: List
+    options:
+      - name: "none"
+        title: "No facets"
+      - name: "wrap"
+        title: "Facet wrap"
+      - name: "grid"
+        title: "Facet grid"
+    default: "none"
+  - name: facetScales
+    title: "Facet scales"
+    type: List
+    options:
+      - name: "fixed"
+        title: "Fixed"
+      - name: "free"
+        title: "Free"
+      - name: "free_x"
+        title: "Free X"
+      - name: "free_y"
+        title: "Free Y"
+    default: "fixed"
+  - name: facetCols
+    title: "Facet wrap: number of columns (0 = automatic)"
+    type: Integer
+    min: 0
+    default: 0
+
+  - name: act1
+    title: "Layer actions"
+    type: List
+    options:
+      - name: "none"
+        title: "Choose an action..."
+      - name: "up"
+        title: "Move up"
+      - name: "down"
+        title: "Move down"
+      - name: "duplicate"
+        title: "Duplicate"
+      - name: "reset"
+        title: "Reset settings"
+      - name: "delete"
+        title: "Delete"
+    default: "none"
+  - name: l1_type
+    title: "Layer 1: type"
+    type: List
+    options:
+      - name: "none"
+        title: "None"
+      - name: "point"
+        title: "Points"
+      - name: "line"
+        title: "Line"
+      - name: "smooth"
+        title: "Smooth / regression"
+      - name: "jitter"
+        title: "Jittered points"
+      - name: "text"
+        title: "Text labels"
+      - name: "histogram"
+        title: "Histogram"
+      - name: "bar"
+        title: "Bar (counts)"
+      - name: "col"
+        title: "Column (values)"
+      - name: "density"
+        title: "Density"
+      - name: "boxplot"
+        title: "Boxplot"
+      - name: "violin"
+        title: "Violin"
+      - name: "hline"
+        title: "Horizontal line"
+      - name: "vline"
+        title: "Vertical line"
+      - name: "abline"
+        title: "Diagonal line"
+      - name: "path"
+        title: "Path (data order)"
+      - name: "area"
+        title: "Area"
+      - name: "ribbon"
+        title: "Ribbon (min to max)"
+      - name: "errorbar"
+        title: "Error bars"
+      - name: "segment"
+        title: "Segments"
+      - name: "label"
+        title: "Boxed labels"
+      - name: "summary"
+        title: "Summary (point / range)"
+      - name: "summary_errorbar"
+        title: "Summary error bars"
+      - name: "summary_bar"
+        title: "Summary bars"
+    default: "point"
+  - name: l1_enabled
+    title: "Layer 1: enabled"
+    type: Bool
+    default: true
+  - name: l1_inherit
+    title: "Layer 1: inherit global aesthetics"
+    type: Bool
+    default: true
+  - name: l1_alpha
+    title: "Layer 1: opacity (0-1)"
+    type: Number
+    min: 0
+    max: 1
+    default: 1
+  - name: l1_size
+    title: "Layer 1: size / line width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l1_width
+    title: "Layer 1: bar / box / error-bar width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l1_position
+    title: "Layer 1: position adjustment"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "identity"
+        title: "Identity (overlap)"
+      - name: "stack"
+        title: "Stack"
+      - name: "fill"
+        title: "Fill (100%)"
+      - name: "dodge"
+        title: "Dodge (side by side)"
+      - name: "jitter"
+        title: "Jitter"
+    default: "default"
+  - name: l1_stat
+    title: "Layer 1: summary statistic"
+    type: List
+    options:
+      - name: "mean_se"
+        title: "Mean ± standard error"
+      - name: "mean_sd"
+        title: "Mean ± standard deviation"
+      - name: "mean"
+        title: "Mean"
+      - name: "median"
+        title: "Median"
+      - name: "median_iqr"
+        title: "Median with interquartile range"
+    default: "mean_se"
+  - name: l1_method
+    title: "Layer 1: smoothing method"
+    type: List
+    options:
+      - name: "lm"
+        title: "Linear (lm)"
+      - name: "loess"
+        title: "LOESS"
+      - name: "glm"
+        title: "GLM"
+    default: "lm"
+  - name: l1_se
+    title: "Layer 1: confidence band"
+    type: Bool
+    default: true
+  - name: l1_bins
+    title: "Layer 1: histogram bins"
+    type: Integer
+    min: 1
+    max: 1000
+    default: 30
+  - name: l1_intercept
+    title: "Layer 1: line position / intercept"
+    type: Number
+    default: 0
+  - name: l1_slope
+    title: "Layer 1: slope (diagonal line)"
+    type: Number
+    default: 1
+
+  - name: act2
+    title: "Layer actions"
+    type: List
+    options:
+      - name: "none"
+        title: "Choose an action..."
+      - name: "up"
+        title: "Move up"
+      - name: "down"
+        title: "Move down"
+      - name: "duplicate"
+        title: "Duplicate"
+      - name: "reset"
+        title: "Reset settings"
+      - name: "delete"
+        title: "Delete"
+    default: "none"
+  - name: l2_type
+    title: "Layer 2: type"
+    type: List
+    options:
+      - name: "none"
+        title: "None"
+      - name: "point"
+        title: "Points"
+      - name: "line"
+        title: "Line"
+      - name: "smooth"
+        title: "Smooth / regression"
+      - name: "jitter"
+        title: "Jittered points"
+      - name: "text"
+        title: "Text labels"
+      - name: "histogram"
+        title: "Histogram"
+      - name: "bar"
+        title: "Bar (counts)"
+      - name: "col"
+        title: "Column (values)"
+      - name: "density"
+        title: "Density"
+      - name: "boxplot"
+        title: "Boxplot"
+      - name: "violin"
+        title: "Violin"
+      - name: "hline"
+        title: "Horizontal line"
+      - name: "vline"
+        title: "Vertical line"
+      - name: "abline"
+        title: "Diagonal line"
+      - name: "path"
+        title: "Path (data order)"
+      - name: "area"
+        title: "Area"
+      - name: "ribbon"
+        title: "Ribbon (min to max)"
+      - name: "errorbar"
+        title: "Error bars"
+      - name: "segment"
+        title: "Segments"
+      - name: "label"
+        title: "Boxed labels"
+      - name: "summary"
+        title: "Summary (point / range)"
+      - name: "summary_errorbar"
+        title: "Summary error bars"
+      - name: "summary_bar"
+        title: "Summary bars"
+    default: "none"
+  - name: l2_enabled
+    title: "Layer 2: enabled"
+    type: Bool
+    default: true
+  - name: l2_inherit
+    title: "Layer 2: inherit global aesthetics"
+    type: Bool
+    default: true
+  - name: l2_alpha
+    title: "Layer 2: opacity (0-1)"
+    type: Number
+    min: 0
+    max: 1
+    default: 1
+  - name: l2_size
+    title: "Layer 2: size / line width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l2_width
+    title: "Layer 2: bar / box / error-bar width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l2_position
+    title: "Layer 2: position adjustment"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "identity"
+        title: "Identity (overlap)"
+      - name: "stack"
+        title: "Stack"
+      - name: "fill"
+        title: "Fill (100%)"
+      - name: "dodge"
+        title: "Dodge (side by side)"
+      - name: "jitter"
+        title: "Jitter"
+    default: "default"
+  - name: l2_stat
+    title: "Layer 2: summary statistic"
+    type: List
+    options:
+      - name: "mean_se"
+        title: "Mean ± standard error"
+      - name: "mean_sd"
+        title: "Mean ± standard deviation"
+      - name: "mean"
+        title: "Mean"
+      - name: "median"
+        title: "Median"
+      - name: "median_iqr"
+        title: "Median with interquartile range"
+    default: "mean_se"
+  - name: l2_method
+    title: "Layer 2: smoothing method"
+    type: List
+    options:
+      - name: "lm"
+        title: "Linear (lm)"
+      - name: "loess"
+        title: "LOESS"
+      - name: "glm"
+        title: "GLM"
+    default: "lm"
+  - name: l2_se
+    title: "Layer 2: confidence band"
+    type: Bool
+    default: true
+  - name: l2_bins
+    title: "Layer 2: histogram bins"
+    type: Integer
+    min: 1
+    max: 1000
+    default: 30
+  - name: l2_intercept
+    title: "Layer 2: line position / intercept"
+    type: Number
+    default: 0
+  - name: l2_slope
+    title: "Layer 2: slope (diagonal line)"
+    type: Number
+    default: 1
+
+  - name: act3
+    title: "Layer actions"
+    type: List
+    options:
+      - name: "none"
+        title: "Choose an action..."
+      - name: "up"
+        title: "Move up"
+      - name: "down"
+        title: "Move down"
+      - name: "duplicate"
+        title: "Duplicate"
+      - name: "reset"
+        title: "Reset settings"
+      - name: "delete"
+        title: "Delete"
+    default: "none"
+  - name: l3_type
+    title: "Layer 3: type"
+    type: List
+    options:
+      - name: "none"
+        title: "None"
+      - name: "point"
+        title: "Points"
+      - name: "line"
+        title: "Line"
+      - name: "smooth"
+        title: "Smooth / regression"
+      - name: "jitter"
+        title: "Jittered points"
+      - name: "text"
+        title: "Text labels"
+      - name: "histogram"
+        title: "Histogram"
+      - name: "bar"
+        title: "Bar (counts)"
+      - name: "col"
+        title: "Column (values)"
+      - name: "density"
+        title: "Density"
+      - name: "boxplot"
+        title: "Boxplot"
+      - name: "violin"
+        title: "Violin"
+      - name: "hline"
+        title: "Horizontal line"
+      - name: "vline"
+        title: "Vertical line"
+      - name: "abline"
+        title: "Diagonal line"
+      - name: "path"
+        title: "Path (data order)"
+      - name: "area"
+        title: "Area"
+      - name: "ribbon"
+        title: "Ribbon (min to max)"
+      - name: "errorbar"
+        title: "Error bars"
+      - name: "segment"
+        title: "Segments"
+      - name: "label"
+        title: "Boxed labels"
+      - name: "summary"
+        title: "Summary (point / range)"
+      - name: "summary_errorbar"
+        title: "Summary error bars"
+      - name: "summary_bar"
+        title: "Summary bars"
+    default: "none"
+  - name: l3_enabled
+    title: "Layer 3: enabled"
+    type: Bool
+    default: true
+  - name: l3_inherit
+    title: "Layer 3: inherit global aesthetics"
+    type: Bool
+    default: true
+  - name: l3_alpha
+    title: "Layer 3: opacity (0-1)"
+    type: Number
+    min: 0
+    max: 1
+    default: 1
+  - name: l3_size
+    title: "Layer 3: size / line width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l3_width
+    title: "Layer 3: bar / box / error-bar width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l3_position
+    title: "Layer 3: position adjustment"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "identity"
+        title: "Identity (overlap)"
+      - name: "stack"
+        title: "Stack"
+      - name: "fill"
+        title: "Fill (100%)"
+      - name: "dodge"
+        title: "Dodge (side by side)"
+      - name: "jitter"
+        title: "Jitter"
+    default: "default"
+  - name: l3_stat
+    title: "Layer 3: summary statistic"
+    type: List
+    options:
+      - name: "mean_se"
+        title: "Mean ± standard error"
+      - name: "mean_sd"
+        title: "Mean ± standard deviation"
+      - name: "mean"
+        title: "Mean"
+      - name: "median"
+        title: "Median"
+      - name: "median_iqr"
+        title: "Median with interquartile range"
+    default: "mean_se"
+  - name: l3_method
+    title: "Layer 3: smoothing method"
+    type: List
+    options:
+      - name: "lm"
+        title: "Linear (lm)"
+      - name: "loess"
+        title: "LOESS"
+      - name: "glm"
+        title: "GLM"
+    default: "lm"
+  - name: l3_se
+    title: "Layer 3: confidence band"
+    type: Bool
+    default: true
+  - name: l3_bins
+    title: "Layer 3: histogram bins"
+    type: Integer
+    min: 1
+    max: 1000
+    default: 30
+  - name: l3_intercept
+    title: "Layer 3: line position / intercept"
+    type: Number
+    default: 0
+  - name: l3_slope
+    title: "Layer 3: slope (diagonal line)"
+    type: Number
+    default: 1
+
+  - name: act4
+    title: "Layer actions"
+    type: List
+    options:
+      - name: "none"
+        title: "Choose an action..."
+      - name: "up"
+        title: "Move up"
+      - name: "down"
+        title: "Move down"
+      - name: "duplicate"
+        title: "Duplicate"
+      - name: "reset"
+        title: "Reset settings"
+      - name: "delete"
+        title: "Delete"
+    default: "none"
+  - name: l4_type
+    title: "Layer 4: type"
+    type: List
+    options:
+      - name: "none"
+        title: "None"
+      - name: "point"
+        title: "Points"
+      - name: "line"
+        title: "Line"
+      - name: "smooth"
+        title: "Smooth / regression"
+      - name: "jitter"
+        title: "Jittered points"
+      - name: "text"
+        title: "Text labels"
+      - name: "histogram"
+        title: "Histogram"
+      - name: "bar"
+        title: "Bar (counts)"
+      - name: "col"
+        title: "Column (values)"
+      - name: "density"
+        title: "Density"
+      - name: "boxplot"
+        title: "Boxplot"
+      - name: "violin"
+        title: "Violin"
+      - name: "hline"
+        title: "Horizontal line"
+      - name: "vline"
+        title: "Vertical line"
+      - name: "abline"
+        title: "Diagonal line"
+      - name: "path"
+        title: "Path (data order)"
+      - name: "area"
+        title: "Area"
+      - name: "ribbon"
+        title: "Ribbon (min to max)"
+      - name: "errorbar"
+        title: "Error bars"
+      - name: "segment"
+        title: "Segments"
+      - name: "label"
+        title: "Boxed labels"
+      - name: "summary"
+        title: "Summary (point / range)"
+      - name: "summary_errorbar"
+        title: "Summary error bars"
+      - name: "summary_bar"
+        title: "Summary bars"
+    default: "none"
+  - name: l4_enabled
+    title: "Layer 4: enabled"
+    type: Bool
+    default: true
+  - name: l4_inherit
+    title: "Layer 4: inherit global aesthetics"
+    type: Bool
+    default: true
+  - name: l4_alpha
+    title: "Layer 4: opacity (0-1)"
+    type: Number
+    min: 0
+    max: 1
+    default: 1
+  - name: l4_size
+    title: "Layer 4: size / line width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l4_width
+    title: "Layer 4: bar / box / error-bar width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l4_position
+    title: "Layer 4: position adjustment"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "identity"
+        title: "Identity (overlap)"
+      - name: "stack"
+        title: "Stack"
+      - name: "fill"
+        title: "Fill (100%)"
+      - name: "dodge"
+        title: "Dodge (side by side)"
+      - name: "jitter"
+        title: "Jitter"
+    default: "default"
+  - name: l4_stat
+    title: "Layer 4: summary statistic"
+    type: List
+    options:
+      - name: "mean_se"
+        title: "Mean ± standard error"
+      - name: "mean_sd"
+        title: "Mean ± standard deviation"
+      - name: "mean"
+        title: "Mean"
+      - name: "median"
+        title: "Median"
+      - name: "median_iqr"
+        title: "Median with interquartile range"
+    default: "mean_se"
+  - name: l4_method
+    title: "Layer 4: smoothing method"
+    type: List
+    options:
+      - name: "lm"
+        title: "Linear (lm)"
+      - name: "loess"
+        title: "LOESS"
+      - name: "glm"
+        title: "GLM"
+    default: "lm"
+  - name: l4_se
+    title: "Layer 4: confidence band"
+    type: Bool
+    default: true
+  - name: l4_bins
+    title: "Layer 4: histogram bins"
+    type: Integer
+    min: 1
+    max: 1000
+    default: 30
+  - name: l4_intercept
+    title: "Layer 4: line position / intercept"
+    type: Number
+    default: 0
+  - name: l4_slope
+    title: "Layer 4: slope (diagonal line)"
+    type: Number
+    default: 1
+
+  - name: act5
+    title: "Layer actions"
+    type: List
+    options:
+      - name: "none"
+        title: "Choose an action..."
+      - name: "up"
+        title: "Move up"
+      - name: "down"
+        title: "Move down"
+      - name: "duplicate"
+        title: "Duplicate"
+      - name: "reset"
+        title: "Reset settings"
+      - name: "delete"
+        title: "Delete"
+    default: "none"
+  - name: l5_type
+    title: "Layer 5: type"
+    type: List
+    options:
+      - name: "none"
+        title: "None"
+      - name: "point"
+        title: "Points"
+      - name: "line"
+        title: "Line"
+      - name: "smooth"
+        title: "Smooth / regression"
+      - name: "jitter"
+        title: "Jittered points"
+      - name: "text"
+        title: "Text labels"
+      - name: "histogram"
+        title: "Histogram"
+      - name: "bar"
+        title: "Bar (counts)"
+      - name: "col"
+        title: "Column (values)"
+      - name: "density"
+        title: "Density"
+      - name: "boxplot"
+        title: "Boxplot"
+      - name: "violin"
+        title: "Violin"
+      - name: "hline"
+        title: "Horizontal line"
+      - name: "vline"
+        title: "Vertical line"
+      - name: "abline"
+        title: "Diagonal line"
+      - name: "path"
+        title: "Path (data order)"
+      - name: "area"
+        title: "Area"
+      - name: "ribbon"
+        title: "Ribbon (min to max)"
+      - name: "errorbar"
+        title: "Error bars"
+      - name: "segment"
+        title: "Segments"
+      - name: "label"
+        title: "Boxed labels"
+      - name: "summary"
+        title: "Summary (point / range)"
+      - name: "summary_errorbar"
+        title: "Summary error bars"
+      - name: "summary_bar"
+        title: "Summary bars"
+    default: "none"
+  - name: l5_enabled
+    title: "Layer 5: enabled"
+    type: Bool
+    default: true
+  - name: l5_inherit
+    title: "Layer 5: inherit global aesthetics"
+    type: Bool
+    default: true
+  - name: l5_alpha
+    title: "Layer 5: opacity (0-1)"
+    type: Number
+    min: 0
+    max: 1
+    default: 1
+  - name: l5_size
+    title: "Layer 5: size / line width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l5_width
+    title: "Layer 5: bar / box / error-bar width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l5_position
+    title: "Layer 5: position adjustment"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "identity"
+        title: "Identity (overlap)"
+      - name: "stack"
+        title: "Stack"
+      - name: "fill"
+        title: "Fill (100%)"
+      - name: "dodge"
+        title: "Dodge (side by side)"
+      - name: "jitter"
+        title: "Jitter"
+    default: "default"
+  - name: l5_stat
+    title: "Layer 5: summary statistic"
+    type: List
+    options:
+      - name: "mean_se"
+        title: "Mean ± standard error"
+      - name: "mean_sd"
+        title: "Mean ± standard deviation"
+      - name: "mean"
+        title: "Mean"
+      - name: "median"
+        title: "Median"
+      - name: "median_iqr"
+        title: "Median with interquartile range"
+    default: "mean_se"
+  - name: l5_method
+    title: "Layer 5: smoothing method"
+    type: List
+    options:
+      - name: "lm"
+        title: "Linear (lm)"
+      - name: "loess"
+        title: "LOESS"
+      - name: "glm"
+        title: "GLM"
+    default: "lm"
+  - name: l5_se
+    title: "Layer 5: confidence band"
+    type: Bool
+    default: true
+  - name: l5_bins
+    title: "Layer 5: histogram bins"
+    type: Integer
+    min: 1
+    max: 1000
+    default: 30
+  - name: l5_intercept
+    title: "Layer 5: line position / intercept"
+    type: Number
+    default: 0
+  - name: l5_slope
+    title: "Layer 5: slope (diagonal line)"
+    type: Number
+    default: 1
+
+  - name: act6
+    title: "Layer actions"
+    type: List
+    options:
+      - name: "none"
+        title: "Choose an action..."
+      - name: "up"
+        title: "Move up"
+      - name: "down"
+        title: "Move down"
+      - name: "duplicate"
+        title: "Duplicate"
+      - name: "reset"
+        title: "Reset settings"
+      - name: "delete"
+        title: "Delete"
+    default: "none"
+  - name: l6_type
+    title: "Layer 6: type"
+    type: List
+    options:
+      - name: "none"
+        title: "None"
+      - name: "point"
+        title: "Points"
+      - name: "line"
+        title: "Line"
+      - name: "smooth"
+        title: "Smooth / regression"
+      - name: "jitter"
+        title: "Jittered points"
+      - name: "text"
+        title: "Text labels"
+      - name: "histogram"
+        title: "Histogram"
+      - name: "bar"
+        title: "Bar (counts)"
+      - name: "col"
+        title: "Column (values)"
+      - name: "density"
+        title: "Density"
+      - name: "boxplot"
+        title: "Boxplot"
+      - name: "violin"
+        title: "Violin"
+      - name: "hline"
+        title: "Horizontal line"
+      - name: "vline"
+        title: "Vertical line"
+      - name: "abline"
+        title: "Diagonal line"
+      - name: "path"
+        title: "Path (data order)"
+      - name: "area"
+        title: "Area"
+      - name: "ribbon"
+        title: "Ribbon (min to max)"
+      - name: "errorbar"
+        title: "Error bars"
+      - name: "segment"
+        title: "Segments"
+      - name: "label"
+        title: "Boxed labels"
+      - name: "summary"
+        title: "Summary (point / range)"
+      - name: "summary_errorbar"
+        title: "Summary error bars"
+      - name: "summary_bar"
+        title: "Summary bars"
+    default: "none"
+  - name: l6_enabled
+    title: "Layer 6: enabled"
+    type: Bool
+    default: true
+  - name: l6_inherit
+    title: "Layer 6: inherit global aesthetics"
+    type: Bool
+    default: true
+  - name: l6_alpha
+    title: "Layer 6: opacity (0-1)"
+    type: Number
+    min: 0
+    max: 1
+    default: 1
+  - name: l6_size
+    title: "Layer 6: size / line width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l6_width
+    title: "Layer 6: bar / box / error-bar width (0 = default)"
+    type: Number
+    min: 0
+    default: 0
+  - name: l6_position
+    title: "Layer 6: position adjustment"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "identity"
+        title: "Identity (overlap)"
+      - name: "stack"
+        title: "Stack"
+      - name: "fill"
+        title: "Fill (100%)"
+      - name: "dodge"
+        title: "Dodge (side by side)"
+      - name: "jitter"
+        title: "Jitter"
+    default: "default"
+  - name: l6_stat
+    title: "Layer 6: summary statistic"
+    type: List
+    options:
+      - name: "mean_se"
+        title: "Mean ± standard error"
+      - name: "mean_sd"
+        title: "Mean ± standard deviation"
+      - name: "mean"
+        title: "Mean"
+      - name: "median"
+        title: "Median"
+      - name: "median_iqr"
+        title: "Median with interquartile range"
+    default: "mean_se"
+  - name: l6_method
+    title: "Layer 6: smoothing method"
+    type: List
+    options:
+      - name: "lm"
+        title: "Linear (lm)"
+      - name: "loess"
+        title: "LOESS"
+      - name: "glm"
+        title: "GLM"
+    default: "lm"
+  - name: l6_se
+    title: "Layer 6: confidence band"
+    type: Bool
+    default: true
+  - name: l6_bins
+    title: "Layer 6: histogram bins"
+    type: Integer
+    min: 1
+    max: 1000
+    default: 30
+  - name: l6_intercept
+    title: "Layer 6: line position / intercept"
+    type: Number
+    default: 0
+  - name: l6_slope
+    title: "Layer 6: slope (diagonal line)"
+    type: Number
+    default: 1
+
+  - name: xTrans
+    title: "X axis transformation"
+    type: List
+    options:
+      - name: "identity"
+        title: "None"
+      - name: "log10"
+        title: "Log10"
+      - name: "sqrt"
+        title: "Square root"
+      - name: "reverse"
+        title: "Reverse"
+    default: "identity"
+  - name: yTrans
+    title: "Y axis transformation"
+    type: List
+    options:
+      - name: "identity"
+        title: "None"
+      - name: "log10"
+        title: "Log10"
+      - name: "sqrt"
+        title: "Square root"
+      - name: "reverse"
+        title: "Reverse"
+    default: "identity"
+  - name: xMin
+    title: "X axis minimum (blank = automatic)"
+    type: String
+    default: ''
+  - name: xMax
+    title: "X axis maximum (blank = automatic)"
+    type: String
+    default: ''
+  - name: yMin
+    title: "Y axis minimum (blank = automatic)"
+    type: String
+    default: ''
+  - name: yMax
+    title: "Y axis maximum (blank = automatic)"
+    type: String
+    default: ''
+  - name: rangeMode
+    title: "Axis range mode"
+    type: List
+    options:
+      - name: "zoom"
+        title: "Zoom (keep all data)"
+      - name: "limits"
+        title: "Limits (remove data outside)"
+    default: "zoom"
+  - name: coordType
+    title: "Coordinate system"
+    type: List
+    options:
+      - name: "cartesian"
+        title: "Cartesian"
+      - name: "flip"
+        title: "Flipped (swap X and Y)"
+      - name: "fixed"
+        title: "Fixed aspect ratio (1:1)"
+    default: "cartesian"
+  - name: colourPalette
+    title: "Colour palette"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "viridis"
+        title: "Viridis"
+      - name: "set1"
+        title: "Brewer Set1 (categorical)"
+      - name: "dark2"
+        title: "Brewer Dark2 (categorical)"
+      - name: "blues"
+        title: "Blues"
+      - name: "greys"
+        title: "Greys"
+      - name: "manual"
+        title: "Manual colours (categorical)"
+    default: "default"
+  - name: colourValues
+    title: "Manual colours (comma separated)"
+    type: String
+    default: ''
+  - name: fillPalette
+    title: "Fill palette"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "viridis"
+        title: "Viridis"
+      - name: "set1"
+        title: "Brewer Set1 (categorical)"
+      - name: "dark2"
+        title: "Brewer Dark2 (categorical)"
+      - name: "blues"
+        title: "Blues"
+      - name: "greys"
+        title: "Greys"
+      - name: "manual"
+        title: "Manual colours (categorical)"
+    default: "default"
+  - name: fillValues
+    title: "Manual colours (comma separated)"
+    type: String
+    default: ''
+  - name: legendPosition
+    title: "Legend position"
+    type: List
+    options:
+      - name: "right"
+        title: "Right"
+      - name: "left"
+        title: "Left"
+      - name: "top"
+        title: "Top"
+      - name: "bottom"
+        title: "Bottom"
+      - name: "none"
+        title: "Hidden"
+    default: "right"
+  - name: colourTitle
+    title: "Colour legend title"
+    type: String
+    default: ''
+  - name: fillTitle
+    title: "Fill legend title"
+    type: String
+    default: ''
+  - name: shapeTitle
+    title: "Shape legend title"
+    type: String
+    default: ''
+  - name: sizeTitle
+    title: "Size legend title"
+    type: String
+    default: ''
+  - name: alphaTitle
+    title: "Opacity legend title"
+    type: String
+    default: ''
+  - name: title
+    title: "Title"
+    type: String
+    default: ''
+  - name: subtitle
+    title: "Subtitle"
+    type: String
+    default: ''
+  - name: caption
+    title: "Caption"
+    type: String
+    default: ''
+  - name: xlab
+    title: "X axis title"
+    type: String
+    default: ''
+  - name: ylab
+    title: "Y axis title"
+    type: String
+    default: ''
+  - name: baseSize
+    title: "Base text size"
+    type: Number
+    min: 4
+    max: 40
+    default: 11
+  - name: baseFamily
+    title: "Font family"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "sans"
+        title: "Sans-serif"
+      - name: "serif"
+        title: "Serif"
+      - name: "mono"
+        title: "Monospace"
+    default: "default"
+  - name: hideGridMajor
+    title: "Hide major grid lines"
+    type: Bool
+    default: false
+  - name: hideGridMinor
+    title: "Hide minor grid lines"
+    type: Bool
+    default: false
+  - name: hideTicks
+    title: "Hide axis ticks"
+    type: Bool
+    default: false
+  - name: boldTitle
+    title: "Bold title"
+    type: Bool
+    default: false
+  - name: xTextAngle
+    title: "X axis text angle"
+    type: List
+    options:
+      - name: "default"
+        title: "Default"
+      - name: "deg45"
+        title: "45 degrees"
+      - name: "deg90"
+        title: "90 degrees"
+    default: "default"
+  - name: plotFill
+    title: "Plot background colour (blank = theme default)"
+    type: String
+    default: ''
+  - name: panelFill
+    title: "Panel background colour (blank = theme default)"
+    type: String
+    default: ''
+  - name: plotMargin
+    title: "Plot margin in points (blank = theme default)"
+    type: String
+    default: ''
+  - name: theme
+    title: "Theme"
+    type: List
+    options:
+      - name: "grey"
+        title: "Grey"
+      - name: "minimal"
+        title: "Minimal"
+      - name: "bw"
+        title: "Black & white"
+      - name: "classic"
+        title: "Classic"
+      - name: "light"
+        title: "Light"
+      - name: "dark"
+        title: "Dark"
+      - name: "linedraw"
+        title: "Line draw"
+      - name: "void"
+        title: "Void"
+    default: "minimal"
+  - name: showCode
+    title: Show R code
+    type: Bool
+    default: true

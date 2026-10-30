@@ -1,0 +1,10 @@
+---
+refs:
+    ggplot2:
+        type: 'software'
+        author: 'Wickham, H.'
+        year: 2016
+        title: 'ggplot2: Elegant Graphics for Data Analysis'
+        publisher: 'Springer-Verlag New York. [R package]. Retrieved from https://ggplot2.tidyverse.org'
+        url: 'https://ggplot2.tidyverse.org'
+...

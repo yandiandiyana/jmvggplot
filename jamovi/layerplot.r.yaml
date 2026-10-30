@@ -1,0 +1,25 @@
+---
+name:  layerPlot
+title: Layered ggplot
+jrs:   '1.1'
+
+items:
+    - name: messages
+      title: Messages
+      type: Preformatted
+      visible: false
+
+    - name: plot
+      title: Plot
+      type: Image
+      width: 600
+      height: 450
+      renderFun: .plot
+
+    - name: code
+      title: Equivalent R code
+      type: Preformatted
+      visible: (showCode)
+
+refs:
+    - ggplot2

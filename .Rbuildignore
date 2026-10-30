@@ -1,0 +1,10 @@
+^tests/js$
+^tests/manual$
+^tools$
+^docs$
+^examples$
+^\.gitignore$
+^.*\.jmo$
+^build$
+^.*\.Rproj$
+^\.Rproj\.user$

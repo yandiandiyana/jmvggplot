@@ -1,0 +1,23 @@
+Package: jmvggplot
+Type: Package
+Title: Layer-by-Layer ggplot2 Plots for jamovi
+Version: 0.0.1
+Date: 2026-10-30
+Authors@R: person("Yandi", "Andiyana", email = "yandi.andiyana@yandex.com", role = c("aut", "cre"))
+Description: A jamovi module that composes ggplot2 plots from an ordered list of
+    layers, and shows the equivalent R code generated from the same validated
+    plot specification.
+License: GPL (>= 2)
+URL: https://github.com/yandiandiyana/jmvggplot
+BugReports: https://github.com/yandiandiyana/jmvggplot/issues
+Encoding: UTF-8
+Imports:
+    jmvcore (>= 0.8.5),
+    R6,
+    ggplot2 (>= 3.5.0),
+    stats,
+    utils,
+    grDevices
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

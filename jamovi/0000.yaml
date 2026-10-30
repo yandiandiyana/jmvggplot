@@ -1,0 +1,36 @@
+---
+title: jmvggplot
+name: jmvggplot
+version: 0.0.1
+jms: '1.0'
+authors:
+  - Yandi Andiyana
+maintainer: Yandi Andiyana <yandi.andiyana@yandex.com>
+date: '2026-10-30'
+type: R
+description: Build ggplot2 plots layer by layer, and see the equivalent R code.
+category: plots
+analyses:
+  - title: Layered ggplot
+    name: layerPlot
+    ns: jmvggplot
+    menuGroup: .
+    category: plots
+    menuTitle: Layered ggplot
+    description: >-
+      Builds a ggplot2 plot from an ordered list of layers and shows the
+      equivalent R code.
+datasets:
+  - name: penguins
+    path: penguins.csv
+    description: >-
+      Size measurements of 344 penguins of three species (palmerpenguins
+      package, CC0 licence)
+    tags:
+      - plots
+      - ggplot2
+      - scatterplot
+usesNative: true
+minApp: 1.0.8
+
+...
